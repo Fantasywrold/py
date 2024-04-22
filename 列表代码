@@ -1,0 +1,49 @@
+# Press the green button in the gutter to run the script
+
+class Mylist:
+  '''列表类'''
+  def __init__(self):
+      self._capacity:int = 10  #列表容量
+      self._arr:list[int] = [0] *self._capacity   #数组元素
+      self._size:int = 0 #列表长度
+      self._extend_ratio:int = 2 #每次列表扩容倍数
+
+  def size(self):
+      #获取列表长度
+      return self._size
+
+  def get(self,index:int):
+      #访问元素，越界报异常
+      if index < 0 or index > self._size:
+          raise IndexError
+      return self._arr[index]
+
+  def set(self, num : int, index : int):
+      #更新元素
+      if index < 0 or index > self._size:
+          raise IndexError
+      self._arr[index] = num
+
+  def add(self,num:int):
+      #在尾部添加元素
+      if self._size() == self._capacity:
+          self._extend_capacity()
+      #触发扩容
+      self._arr[self._size] = num
+      self._size += 1
+
+  def insert(self,num:int,index:int):
+      #插入元素
+      if index < 0 or index > self._size:
+          raise IndexError
+      if self._size() == self._capacity:
+          self._extend_capacity()
+      for j in range(self._size-1,index-1,-1):
+          self._arr[j+1] = self._arr[j]
+      self._arr[j] = num
+      self._size += 1
+
+  def extend_capacity(self):
+      #列表扩容
+      self._arr = self._arr + [0] * self._capacity() * (self._extend_ratio)
+      self._capacity = len(self._arr)
